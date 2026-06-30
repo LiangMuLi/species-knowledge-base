@@ -1,0 +1,48 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: species-backend
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/species?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: ""
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+  # 文件上传限制
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# JWT 配置
+jwt:
+  secret: SpeciesKBSecretKey2024MustBeAtLeast256BitsLong!
+  expiration: 86400000  # 24小时，单位毫秒
+
+# DataInitializer 自动建表 + 创建管理员 + 种子数据
+# 已做了幂等检查（用户数为0时才插入），可以安全地保持 true
+app:
+  init-data: true
+  upload-dir: ${user.home}/species-uploads

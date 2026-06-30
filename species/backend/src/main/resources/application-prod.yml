@@ -1,0 +1,15 @@
+# 生产环境配置（Docker 容器中生效）
+spring:
+  datasource:
+    # 注意：mysql 是 docker-compose 中的服务名，不是 localhost
+    url: jdbc:mysql://mysql:3306/species?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl  # 生产环境关闭 SQL 日志
+
+app:
+  init-data: true   # 由 DataInitializer 自动创建管理员和种子数据

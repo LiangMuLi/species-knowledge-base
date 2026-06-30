@@ -1,0 +1,36 @@
+# ============================================
+# 本地开发配置
+# 使用 H2 内存数据库，无需安装 MySQL，无需启动 Redis
+# 激活方式：IDEA 启动时 Program arguments 加 --spring.profiles.active=dev
+# ============================================
+
+server:
+  port: 8081
+
+spring:
+  # H2 内存数据库（MySQL 兼容模式）
+  datasource:
+    url: jdbc:h2:mem:species;DB_CLOSE_DELAY=-1;MODE=MYSQL;DATABASE_TO_LOWER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  # H2 Web Console — 启动后访问 http://localhost:8081/h2-console 查数据
+  # JDBC URL: jdbc:h2:mem:species  用户名: sa  密码: 空
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  # 启动时自动建表 + 插入种子数据
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema-dev.sql
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
